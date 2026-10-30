@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Html } from "@react-three/drei";
-import { EffectComposer, Bloom, Vignette, Noise, ChromaticAberration } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, Vignette, Noise } from "@react-three/postprocessing";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -181,7 +181,7 @@ function Planet({ b, sim, selected, onSelect }: { b: Body; sim: React.MutableRef
         >
           <sphereGeometry args={[b.radius, 96, 64]} />
           {isSun ? (
-            <meshBasicMaterial map={tex} color={[2.6, 1.9, 1.2]} toneMapped={false} />
+            <meshBasicMaterial map={tex} color={[4, 2.6, 1.4]} toneMapped={false} />
           ) : (
             <meshStandardMaterial map={tex} roughness={b.id === "earth" ? 0.6 : 0.95} metalness={0} />
           )}
@@ -377,7 +377,6 @@ export default function SolarScene({ sim, selectedId, onSelect, resetKey }: { si
         <Rig sim={sim} selectedId={selectedId} resetKey={resetKey} />
         <EffectComposer multisampling={0}>
           <Bloom mipmapBlur intensity={1.1} luminanceThreshold={0.9} luminanceSmoothing={0.2} radius={0.8} />
-          <ChromaticAberration offset={new THREE.Vector2(0.0006, 0.0006)} radialModulation={false} modulationOffset={0} />
           <Noise opacity={0.035} />
           <Vignette eskil={false} offset={0.2} darkness={0.85} />
         </EffectComposer>
